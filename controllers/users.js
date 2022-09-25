@@ -53,7 +53,7 @@ module.exports.editUserProfile = (req, res) => {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === "CastError" || err.name === "ValidationError") {
+      if (err.name === "CastError") {
         return res.status(404).send({ message: "Пользователь не найден" });
       }
       if (err.name === "ValidationError") {
