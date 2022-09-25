@@ -16,17 +16,16 @@ module.exports.createCard = (req, res) => {
     .then((card) => {
       res.status(200).send(card);
     })
-    .catch(() => {
-      if (err.name === 'ValidationError') {
-        return res
-          .status(400)
-          .send({
-            message: 'При создании карточки данные переданы некорректно',
-          });
+    .catch((err) => {
+      if (err.name === "CastError" || err.name === "ValidationError") {
+        return res.status(400).send({
+          message: "При создании карточки данные переданы некорректно",
+        });
       }
-      res.status(500).send({ message: "Произошла ошибка" });
+      return res.status(500).send({ message: "Произошла ошибка на сервере" });
     });
 };
+
 module.exports.deleteCard = (req, res) => {
   Card.findByIdAndRemove(req.params.cardId)
     .then((card) => {
