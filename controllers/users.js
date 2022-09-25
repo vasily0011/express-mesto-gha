@@ -67,12 +67,12 @@ module.exports.editUserProfile = (req, res) => {
 
 module.exports.editUserAvatar = (req, res) => {
   const { avatar } = req.body;
-  User.findByIdAndUpdate({ avatar }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
     .then((user) => {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === "CastError" || err.name === "ValidationError") {
+      if (err.name === "CastError") {
         return res.status(404).send({ message: "Пользователь не найден" });
       }
       if (err.name === "ValidationError") {
