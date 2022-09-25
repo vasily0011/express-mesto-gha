@@ -57,9 +57,9 @@ module.exports.likeCard = (req, res) => {
       return res.status(404).send({ message: "Карточка не найдена" });
     })
     .catch((err) => {
-      // if (err.name === 'CastError' || err.name === 'ValidationError') {
-      //   return res.status(400).send({ message: 'Данные переданы некорректно' });
-      // }
+      if (err.name === 'CastError' || err.name === 'ValidationError') {
+        return res.status(400).send({ message: 'Данные переданы некорректно' });
+      }
       return res.status(500).send({ message: "Произошла ошибка на сервере" });
     });
 };
@@ -77,9 +77,9 @@ module.exports.dislikeCard = (req, res) => {
       return res.status(404).send({ message: "Карточка не найдена" });
     })
     .catch((err) => {
-      // if (err.name === 'CastError') {
-      //   return res.status(400).send({ message: 'Данные переданы некорректно' });
-      // }
+      if (err.name === 'CastError') {
+        return res.status(400).send({ message: 'Данные переданы некорректно' });
+      }
       return res.status(500).send({ message: "Произошла ошибка на сервере" });
     });
 };
