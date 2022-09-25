@@ -6,7 +6,7 @@ module.exports.getUsers = (req, res) => {
       res.status(200).send({ data: users });
     })
     .catch(() => {
-      res.status(500).send({ message: "Ошибка сервера" });
+      res.status(500).send({ message: "На сервере произошла ошибка" });
     });
 };
 
@@ -15,14 +15,20 @@ module.exports.getUser = (req, res) => {
     .then((user) => {
       if (user) {
         return res.status(200).send(user);
+      } else {
+        return res
+          .status(404)
+          .send({ message: "Запрашиваемый пользователь не найден" });
       }
-      return res.status(404).send({ message: "Запрашиваемый пользователь не найден" });
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        return res.status(400).send({ message: "Запрашиваемый пользователь не найден" });
+        return res
+          .status(400)
+          .send({ message: "Запрашиваемый пользователь не найден" });
+      } else {
+        return res.status(500).send({ message: "На сервере произошла ошибка" });
       }
-      return res.status(500).send({ message: "Ошибка сервера" });
     });
 };
 
@@ -37,8 +43,9 @@ module.exports.createUser = (req, res) => {
         return res.status(400).send({
           message: "При создании пользователя переданы некорректные данные",
         });
+      } else {
+        return res.status(500).send({ message: "На сервере произошла ошибка" });
       }
-      return res.status(500).send({ message: "Ошибка сервера" });
     });
 };
 
@@ -54,14 +61,17 @@ module.exports.editUserProfile = (req, res) => {
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        return res.status(404).send({ message: "Запрашиваемый пользователь не найден" });
+        return res
+          .status(404)
+          .send({ message: "Запрашиваемый пользователь не найден" });
       }
       if (err.name === "ValidationError") {
         return res.status(400).send({
           message: "При обновлении профиля переданны некорректные данные",
         });
+      } else {
+        return res.status(500).send({ message: "На сервере произошла ошибка" });
       }
-      return res.status(500).send({ message: "Ошибка сервера" });
     });
 };
 
@@ -77,13 +87,16 @@ module.exports.editUserAvatar = (req, res) => {
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        return res.status(404).send({ message: "Запрашиваемый пользователь не найден" });
+        return res
+          .status(404)
+          .send({ message: "Запрашиваемый пользователь не найден" });
       }
       if (err.name === "ValidationError") {
         return res.status(400).send({
           message: "При обновлении аватара переданы некорректные данные",
         });
+      } else {
+        return res.status(500).send({ message: "На сервере произошла ошибка" });
       }
-      return res.status(500).send({ message: "Ошибка сервера" });
     });
 };

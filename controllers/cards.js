@@ -6,7 +6,7 @@ module.exports.getCards = (req, res) => {
       res.status(200).send(card);
     })
     .catch(() => {
-      res.status(500).send({ message: "Ошибка сервера" });
+      res.status(500).send({ message: "На сервере произошла ошибка" });
     });
 };
 
@@ -21,8 +21,9 @@ module.exports.createCard = (req, res) => {
         return res.status(400).send({
           message: "При создании карточки переданы некорректные данные",
         });
+      } else {
+        return res.status(500).send({ message: "На сервере произошла ошибка" });
       }
-      return res.status(500).send({ message: "Ошибка сервера" });
     });
 };
 
@@ -36,9 +37,12 @@ module.exports.deleteCard = (req, res) => {
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        return res.status(400).send({ message: "Такой карточки не существует" });
+        return res
+          .status(400)
+          .send({ message: "Такой карточки не существует" });
+      } else {
+        return res.status(500).send({ message: "На сервере произошла ошибка" });
       }
-      return res.status(500).send({ message: "Ошибка сервера" });
     });
 };
 
@@ -51,14 +55,18 @@ module.exports.likeCard = (req, res) => {
     .then((card) => {
       if (card) {
         return res.status(200).send(card);
+      } else {
+        return res
+          .status(404)
+          .send({ message: "Такой карточки не существует" });
       }
-      return res.status(404).send({ message: "Такой карточки не существует" });
     })
     .catch((err) => {
       if (err.name === "CastError" || err.name === "ValidationError") {
         return res.status(400).send({ message: "Данные переданы некорректно" });
+      } else {
+        return res.status(500).send({ message: "На сервере произошла ошибка" });
       }
-      return res.status(500).send({ message: "Ошибка сервера" });
     });
 };
 
@@ -71,13 +79,17 @@ module.exports.dislikeCard = (req, res) => {
     .then((card) => {
       if (card) {
         return res.status(200).send(card);
+      } else {
+        return res
+          .status(404)
+          .send({ message: "Такой карточки не существует" });
       }
-      return res.status(404).send({ message: "Такой карточки не существует" });
     })
     .catch((err) => {
       if (err.name === "CastError") {
         return res.status(400).send({ message: "Данные переданы некорректно" });
+      } else {
+        return res.status(500).send({ message: "На сервере произошла ошибка" });
       }
-      return res.status(500).send({ message: "Ошибка сервера" });
     });
 };

@@ -1,4 +1,4 @@
-[![Tests](https://github.com/yandex-praktikum/express-mesto-gha/actions/workflows/tests-13-sprint.yml/badge.svg)](https://github.com/yandex-praktikum/express-mesto-gha/actions/workflows/tests-13-sprint.yml) [![Tests](https://github.com/yandex-praktikum/express-mesto-gha/actions/workflows/tests-14-sprint.yml/badge.svg)](https://github.com/yandex-praktikum/express-mesto-gha/actions/workflows/tests-14-sprint.yml)
+[![Tests](https://github.com/vasily0011/express-mesto-gha/actions/workflows/tests-13-sprint.yml/badge.svg)](https://github.com/vasily0011/express-mesto-gha/actions/workflows/tests-13-sprint.yml) [![Tests](https://github.com/vasily0011/express-mesto-gha/actions/workflows/tests-14-sprint.yml/badge.svg)](https://github.com/vasily0011/express-mesto-gha/actions/workflows/tests-14-sprint.yml)
 # Проект Mesto фронтенд + бэкенд
 
 
@@ -13,7 +13,7 @@
 [![Tests for sprint 14](https://github.com/vasily0011/express-mesto-gha/actions/workflows/tests-14-sprint.yml/badge.svg)](https://github.com/vasily0011/express-mesto-gha/actions/workflows/tests-14-sprint.yml)
 ```
 
-
+## [Ссылка на репозитий](https://github.com/vasily0011/express-mesto-gha)
 ## Директории
 
 `/routes` — папка с файлами роутера  
