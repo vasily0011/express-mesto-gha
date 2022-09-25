@@ -6,7 +6,7 @@ module.exports.getCards = (req, res) => {
       res.status(200).send(card);
     })
     .catch(() => {
-      res.status(500).send({ message: "Произошла ошибка" });
+      res.status(500).send({ message: "Ошибка сервера" });
     });
 };
 
@@ -19,10 +19,10 @@ module.exports.createCard = (req, res) => {
     .catch((err) => {
       if (err.name === "CastError" || err.name === "ValidationError") {
         return res.status(400).send({
-          message: "При создании карточки данные переданы некорректно",
+          message: "При создании карточки переданы некорректные данные",
         });
       }
-      return res.status(500).send({ message: "Произошла ошибка на сервере" });
+      return res.status(500).send({ message: "Ошибка сервера" });
     });
 };
 
@@ -32,15 +32,13 @@ module.exports.deleteCard = (req, res) => {
       if (card) {
         return res.status(200).send({ message: "Карточка успешно удалена" });
       }
-      return res.status(404).send({ message: "Карточка не найдена" });
+      return res.status(404).send({ message: "Такой карточки не существует" });
     })
     .catch((err) => {
       if (err.name === "CastError") {
-        return res
-          .status(400)
-          .send({ message: "Ошибка валидации. Карточка не найдена" });
+        return res.status(400).send({ message: "Такой карточки не существует" });
       }
-      return res.status(500).send({ message: "Произошла ошибка на сервере" });
+      return res.status(500).send({ message: "Ошибка сервера" });
     });
 };
 
@@ -54,13 +52,13 @@ module.exports.likeCard = (req, res) => {
       if (card) {
         return res.status(200).send(card);
       }
-      return res.status(404).send({ message: "Карточка не найдена" });
+      return res.status(404).send({ message: "Такой карточки не существует" });
     })
     .catch((err) => {
       if (err.name === "CastError" || err.name === "ValidationError") {
         return res.status(400).send({ message: "Данные переданы некорректно" });
       }
-      return res.status(500).send({ message: "Произошла ошибка на сервере" });
+      return res.status(500).send({ message: "Ошибка сервера" });
     });
 };
 
@@ -74,12 +72,12 @@ module.exports.dislikeCard = (req, res) => {
       if (card) {
         return res.status(200).send(card);
       }
-      return res.status(404).send({ message: "Карточка не найдена" });
+      return res.status(404).send({ message: "Такой карточки не существует" });
     })
     .catch((err) => {
       if (err.name === "CastError") {
         return res.status(400).send({ message: "Данные переданы некорректно" });
       }
-      return res.status(500).send({ message: "Произошла ошибка на сервере" });
+      return res.status(500).send({ message: "Ошибка сервера" });
     });
 };
