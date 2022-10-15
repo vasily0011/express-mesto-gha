@@ -43,8 +43,8 @@ app.post(
 );
 
 app.use(auth);
-app.use(userRoutes);
-app.use(cardRoutes);
+app.use('/users', userRoutes);
+app.use('/cards', auth, cardRoutes);
 app.use((req, res, next) => {
   try {
     return next(new NotFoundError('Страница не найдена.'));
