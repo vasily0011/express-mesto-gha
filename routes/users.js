@@ -12,7 +12,7 @@ const {
 
 userRouter.post('/', createUser);
 userRouter.get('/', getUsers);
-userRouter.get('/', getCurrentUser);
+userRouter.get('/me', getCurrentUser);
 
 userRouter.get(
   '/:userId',
