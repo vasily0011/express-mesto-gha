@@ -22,7 +22,7 @@ app.post(
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
-      password: Joi.string().required().min(8),
+      password: Joi.string().required(),
     }),
   }),
   login,
@@ -33,7 +33,7 @@ app.post(
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
-      password: Joi.string().required().min(8),
+      password: Joi.string().required(),
       name: Joi.string().min(2).max(30),
       about: Joi.string().min(2).max(30),
       avatar: Joi.string().regex(/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/),
@@ -44,7 +44,7 @@ app.post(
 
 app.use(auth);
 app.use('/users', userRoutes);
-app.use('/cards', auth, cardRoutes);
+app.use('/cards', cardRoutes);
 app.use((req, res, next) => {
   try {
     return next(new NotFoundError('Страница не найдена.'));
