@@ -6,14 +6,13 @@ const User = require('../models/user');
 const ValidationError = require('../errors/ValidationError');
 const NotFoundError = require('../errors/NotFoundError');
 const ConflictError = require('../errors/ConflictError');
-const ServerError = require('../errors/ServerError');
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
     .then((users) => {
       res.send({ data: users });
     })
-    .catch(() => next(new ServerError('На сервере произошла ошибка')));
+    .catch((err) => next(err));
 };
 
 module.exports.getUser = (req, res, next) => {
@@ -24,7 +23,7 @@ module.exports.getUser = (req, res, next) => {
       }
       return next(new NotFoundError('Запрашиваемый пользователь не найден'));
     })
-    .catch((err) => next(new ServerError('На сервере произошла ошибка')));
+    .catch((err) => next(err));
 };
 
 module.exports.getCurrentUser = (req, res, next) => {
@@ -79,7 +78,7 @@ module.exports.editUserProfile = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return next(new ValidationError('При обновлении профиля переданны некорректные данные'));
       }
-      return next(new ServerError('На сервере произошла ошибка'));
+      return next(err);
     });
 };
 
@@ -100,7 +99,7 @@ module.exports.editUserAvatar = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return next(new ValidationError('При обновлении аватара переданы некорректные данные'));
       }
-      return next(new ServerError('На сервере произошла ошибка'));
+      return next(err);
     });
 };
 
