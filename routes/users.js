@@ -7,10 +7,12 @@ const {
   getUser,
   editUserProfile,
   editUserAvatar,
+  getCurrentUser,
 } = require('../controllers/users');
 
 userRouter.post('/', createUser);
 userRouter.get('/', getUsers);
+userRouter.get('/', getCurrentUser);
 
 userRouter.get(
   '/:userId',

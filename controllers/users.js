@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable consistent-return */
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -22,7 +24,18 @@ module.exports.getUser = (req, res, next) => {
       }
       return next(new NotFoundError('Запрашиваемый пользователь не найден'));
     })
-    .catch(() => next(new ServerError('На сервере произошла ошибка')));
+    .catch((err) => next(new ServerError('На сервере произошла ошибка')));
+};
+
+module.exports.getCurrentUser = (req, res, next) => {
+  User.findById(req.user._id)
+    .then((user) => {
+      if (!user) {
+        return next(new NotFoundError('Пользователь не найден.'));
+      }
+      res.send({ user });
+    })
+    .catch(next);
 };
 
 module.exports.createUser = (req, res, next) => {
