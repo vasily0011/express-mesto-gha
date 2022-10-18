@@ -2,14 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { celebrate, Joi, errors } = require('celebrate');
-const cookieParser = require('cookie-parser');
 const { auth } = require('./middlewares/auth');
-const { errorHandler } = require('./middlewares/errorHandler');
 const userRoutes = require('./routes/users');
 const cardRoutes = require('./routes/cards');
 const { createUser, login } = require('./controllers/users');
 const NotFoundError = require('./errors/NotFoundError');
-const { regexUrl } = require('./constants/regexUrl');
 
 const { PORT = 3000 } = process.env;
 
@@ -17,7 +14,6 @@ const app = express();
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {});
 
-app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -40,7 +36,7 @@ app.post(
       password: Joi.string().required(),
       name: Joi.string().min(2).max(30),
       about: Joi.string().min(2).max(30),
-      avatar: Joi.string().regex(regexUrl),
+      avatar: Joi.string().regex(/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w.-]*)*\/?$/),
     }),
   }),
   createUser,
@@ -49,12 +45,27 @@ app.post(
 app.use(auth);
 app.use('/users', userRoutes);
 app.use('/cards', cardRoutes);
-app.use((req, res, next) => next(new NotFoundError('Страница не найдена.')));
+app.use((req, res, next) => {
+  try {
+    return next(new NotFoundError('Страница не найдена.'));
+  } catch (err) {
+    return next();
+  }
+});
 
-app.use(errors()); // обработчик ошибок celebrate
+app.use(errors());
 
-// централизованный обработчик ошибок
-app.use(errorHandler);
+app.use('/', (req, res, next) => {
+  next(new NotFoundError('Страница не найдена.'));
+});
+
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+
+  const message = statusCode === 500 ? 'На сервере произошла ошибка' : err.message;
+  res.status(statusCode).send({ message });
+  next();
+});
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
