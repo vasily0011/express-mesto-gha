@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-// const { isUrl } = require('validator');
+
 const { regexUrl } = require('../constants/regexUrl');
 
 const cardSchema = new mongoose.Schema({
@@ -13,10 +13,6 @@ const cardSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: regexUrl,
-    // validate: {
-    //   validator: (url) => isUrl(url),
-    //   message: 'Некорректный адрес url',
-    // },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
