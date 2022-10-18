@@ -9,6 +9,7 @@ const {
   editUserAvatar,
   getCurrentUser,
 } = require('../controllers/users');
+const { regexUrl } = require('../constants/regexUrl');
 
 userRouter.post('/', createUser);
 userRouter.get('/', getUsers);
@@ -41,7 +42,7 @@ userRouter.patch(
     body: Joi.object().keys({
       avatar: Joi.string()
         .required()
-        .regex(/^(https?:\/\/)?([\da-z.-]+).([a-z.]{2,6})([/\w.-]*)*\/?$/),
+        .regex(regexUrl),
     }),
   }),
   editUserAvatar,

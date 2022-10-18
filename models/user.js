@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const AuthorizationError = require('../errors/AuthorizationError');
+const { regexUrl } = require('../constants/regexUrl');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -18,6 +19,7 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
+    validate: regexUrl,
     // validate: {
     //   validator: (url) => isUrl(url),
     //   message: 'Некорректный адрес url',
